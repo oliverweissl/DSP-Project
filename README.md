@@ -1,6 +1,6 @@
 # DPCL JSON schema
 
-DPCL (*duty, power, claim and liability*, or *duty/power computer language*) is a domain specific language that serves as an information model for specififying norms. As discussions on normative concepts are still open in the literature, DPCL attempts to remain as much as neutral with respect to the actual semantics, yet aims to provide a minimal common ground to encode normative computational artefacts.
+DPCL (*duty, power, claim and liability*, or *duty/power computer language*) is a domain specific language that serves as an information model for specififying norms. As discussions on several aspects of normative concepts are still open in the literature, DPCL attempts to remain as much as neutral with respect to the actual semantics, yet aims to provide a minimal common ground to encode normative computational artefacts.
 
 A fast comparison:
 - DPCL like ODRL (https://www.w3.org/TR/odrl-model/) aims to provive primarily an informational model, and is JSON-centred, but DPCL include power categories, and focuses primarily on the normative mechanisms;
