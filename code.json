@@ -1,17 +1,1 @@
-[
-  {
-    "compound": "fine",
-    "params": [
-      "x",
-      "y"
-    ],
-    "content": [
-      {
-        "position": "duty",
-        "holder": "x",
-        "counterparty": "y",
-        "action": "#pay"
-      }
-    ]
-  }
-]
+[]

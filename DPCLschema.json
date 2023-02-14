@@ -13,7 +13,17 @@
     },
     "atomic_object": {
       "type": "string",
-      "pattern": "^[a-z][_a-zA-Z0-9]*$"
+      "pattern": "^(\\*|(~)?[a-z][_\\-a-zA-Z0-9]*)$"
+    },
+    "atomic_params": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/atomic_event"
+        },
+        {
+          "$ref": "#/$defs/atomic_object"
+        }
+      ]
     },
     "power_position": {
       "type": "string",
@@ -47,12 +57,18 @@
         },
         {
           "$ref": "#/$defs/refined_object"
+        },
+        {
+          "$ref": "#/$defs/power_frame"
+        },
+        {
+          "$ref": "#/$defs/deontic_frame"
         }
       ]
     },
     "atomic_event": {
       "type": "string",
-      "pattern": "^#[a-z][_a-zA-Z0-9]*$"
+      "pattern": "^(~)?#[a-z][_a-zA-Z0-9]*$"
     },
     "refined_event": {
       "type": "object",
@@ -74,6 +90,16 @@
       "additionalProperties": false
     },
     "transition_event": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/production_event"
+        },
+        {
+          "$ref": "#/$defs/naming_event"
+        }
+      ]
+    },
+    "production_event": {
       "type": "object",
       "properties": {
         "plus": {
@@ -100,6 +126,9 @@
     "naming_event": {
       "type": "object",
       "properties": {
+        "entity": {
+          "$ref": "#/$defs/object"
+        },
         "in": {
           "$ref": "#/$defs/object"
         },
@@ -110,11 +139,13 @@
       "oneOf": [
         {
           "required": [
+            "entity",
             "in"
           ]
         },
         {
           "required": [
+            "entity",
             "out"
           ]
         }
@@ -241,6 +272,9 @@
             }
           },
           "additionalProperties": false
+        },
+        "alias": {
+          "$ref": "#/$defs/atomic_object"
         }
       },
       "required": [
@@ -258,7 +292,7 @@
         "params": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/atomic_object"
+            "$ref": "#/$defs/atomic_params"
           }
         },
         "content": {

@@ -1,0 +1,228 @@
+[
+  {
+    "condition": "rain",
+    "conclusion": "wet"
+  },
+  {
+    "condition": "bike",
+    "conclusion": "vehicle"
+  },
+  {
+    "event": "#rain",
+    "reaction": {
+      "plus": "wet"
+    }
+  },
+  {
+    "event": "#raise_hand",
+    "reaction": {
+      "plus": "bet"
+    }
+  },
+  {
+    "condition": "auction",
+    "conclusion": {
+      "event": "#raise_hand",
+      "reaction": {
+        "plus": "bet"
+      }
+    }
+  },
+  {
+    "position": "power",
+    "holder": "priest",
+    "action": {
+      "reference": "#marry",
+      "refinement": {
+        "patient": [
+          "john",
+          "paul"
+        ]
+      }
+    },
+    "consequence": {
+      "plus": {
+        "reference": "married",
+        "refinement": {
+          "patient": [
+            "john",
+            "paul"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "position": "duty",
+    "holder": "john",
+    "counterparty": "university",
+    "action": {
+      "reference": "#teach",
+      "refinement": {
+        "recipient": "student"
+      }
+    },
+    "violation": {
+      "expression": "john.online is False"
+    }
+  },
+  {
+    "position": "prohibition",
+    "holder": "john",
+    "action": {
+      "reference": "#go",
+      "refinement": {
+        "destination": "swimming"
+      }
+    },
+    "termination": {
+      "event": {
+        "minus": "winter"
+      }
+    }
+  },
+  {
+    "compound": "fine",
+    "params": [
+      "x",
+      "y"
+    ],
+    "content": [
+      {
+        "position": "duty",
+        "holder": "x",
+        "counterparty": "y",
+        "action": "#pay"
+      }
+    ]
+  },
+  {
+    "position": "power",
+    "holder": "person",
+    "action": "#register",
+    "consequence": {
+      "entity": "person",
+      "in": "member"
+    }
+  },
+  {
+    "position": "power",
+    "holder": "member",
+    "action": {
+      "reference": "#request",
+      "refinement": {
+        "item": "book"
+      }
+    },
+    "consequence": {
+      "plus": {
+        "reference": "borrowing",
+        "refinement": {
+          "borrower": "member",
+          "lender": "library",
+          "item": "book"
+        }
+      }
+    }
+  },
+  {
+    "condition": "book",
+    "conclusion": {
+      "compound": "borrowing",
+      "params": [
+        "borrower",
+        "lender",
+        "item"
+      ],
+      "content": [
+        {
+          "position": "duty",
+          "holder": "borrower",
+          "counterparty": "lender",
+          "action": {
+            "reference": "#return",
+            "refinement": {
+              "item": "item",
+              "to": "lender"
+            }
+          },
+          "violation": {
+            "event": "#timeout"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "condition": "~book",
+    "conclusion": {
+      "position": "power",
+      "holder": "member",
+      "action": {
+        "reference": "#request",
+        "refinement": {
+          "to": "library",
+          "item": "book"
+        }
+      },
+      "consequence": {
+        "plus": {
+          "position": "power",
+          "holder": "library",
+          "action": {
+            "reference": "#request",
+            "refinement": {
+              "item": "book"
+            }
+          },
+          "consequence": {
+            "plus": {
+              "position": "duty",
+              "holder": "consortium",
+              "counterparty": "library"
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "position": "duty",
+    "holder": "borrower",
+    "counterparty": "lender",
+    "action": {
+      "reference": "#return",
+      "refinement": {
+        "item": "item",
+        "to": "lender"
+      }
+    },
+    "alias": "d1"
+  },
+  {
+    "condition": "d1",
+    "conclusion": {
+      "position": "power",
+      "holder": "borrower",
+      "action": {
+        "reference": "#return",
+        "refinement": {
+          "item": "item",
+          "to": "lender"
+        }
+      },
+      "consequence": {
+        "minus": "d1"
+      }
+    }
+  },
+  {
+    "condition": "d1",
+    "conclusion": {
+      "event": "#timeout",
+      "reaction": {
+        "plus": "d1.violated"
+      }
+    }
+  }
+]
