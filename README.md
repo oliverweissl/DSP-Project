@@ -2,10 +2,12 @@
 
 DPCL (*duty, power, claim and liability*, or *duty/power computer language*) is a domain specific language that serves as an information model for specififying norms. As the discussions on normative concepts are still hot in the dedicated literature, DPCL remains neutral with respect to the actual semantics, yet aims to provide a minimal common ground to encode normative computational artefacts.
 
-Fast comparison
+For a fast comparison:
 - DPCL like ODRL aims to provive primarily an informational model, and is JSON-centred, but DPCL include powers
 - DPCL like FLINT/eFLINT takes as primitives the normative frames based on Hohfeld framework, but DPCL strictly separates conditional aspects
 - DPCL like Logical English takes as primitives transformational and reactive rules to deal with conditional aspects, but DPCL includes normative relations
+
+This repository contains a JSON schema validating a DPCL program encoded in a json file.
 
 ## Files
 
