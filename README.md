@@ -1,7 +1,13 @@
 # DPCL json schema
 
-DPCL is a domain specific language that serves as an information model for specififying norms.
-As the discussions on normative concepts are still hot in the dedicated literature, DPCL remains neutral with respect to the actual semantics, yet aims to provide a minimal common ground to encode other normative computational artefacts.
+DPCL (*duty, power, claim and liability*, or *duty/power computer language*) is a domain specific language that serves as an information model for specififying norms. As the discussions on normative concepts are still hot in the dedicated literature, DPCL remains neutral with respect to the actual semantics, yet aims to provide a minimal common ground to encode normative computational artefacts.
+
+Fast comparison
+- DPCL like ODRL aims to provive primarily an informational model, and is JSON-centred, but DPCL include powers
+- DPCL like FLINT/eFLINT takes as primitives the normative frames based on Hohfeld framework, but DPCL strictly separates conditional aspects
+- DPCL like Logical English takes as primitives transformational and reactive rules to deal with conditional aspects, but DPCL includes normative relations
+
+## Files
 
 - `DPCLschema.json` contains the current version of the information model as a JSON schema.
 - `DPCLexamples.json` contains examples of code that are validated by the schema
@@ -12,3 +18,10 @@ As the discussions on normative concepts are still hot in the dedicated literatu
 ```
 pip install jsonschema
 ```
+
+## References
+
+To know more about the motivation behind DPCL see our position paper:
+
+Sileno, G., van Binsbergen, T., Pascucci, M., van Engers, T., *DPCL: a Language Template for Normative Specifications*, ProLaLa @ POPL2022 
+https://arxiv.org/abs/2201.04477
