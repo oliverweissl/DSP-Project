@@ -11,7 +11,7 @@ This repository contains a JSON schema validating a DPCL program encoded in a js
 
 ## Files
 
-- `DPCLschema.json` contains the current version of the information model as a JSON schema.
+- `DPCLschema.json` contains the current version of the information model of DPCL as a JSON schema.
 - `DPCLexamples.json` contains examples of code that are validated by the schema
 - `DPCLtest.py` is a simple script based on `jsonschema` used to validate DPCL code in the file `code.json` against the schema.
 
