@@ -23,7 +23,7 @@ pip install jsonschema
 
 ## References
 
-To know more about the motivation behind DPCL see our position paper:
-
-Sileno, G., van Binsbergen, T., Pascucci, M., van Engers, T., *DPCL: a Language Template for Normative Specifications*, ProLaLa @ POPL2022 
+Sileno, G., van Binsbergen, T., Pascucci, M., van Engers, T., 
+*DPCL: a Language Template for Normative Specifications*, 
+Workshop on Programming Languages and the Law (ProLaLa 2022), co-located with POPL 2022
 https://arxiv.org/abs/2201.04477
