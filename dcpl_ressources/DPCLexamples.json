@@ -42,7 +42,7 @@
     },
     "consequence": {
       "plus": {
-        "reference": "married",
+      "reference": "married",
         "refinement": {
           "patient": [
             "john",
