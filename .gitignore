@@ -20,3 +20,6 @@ build/
 **/.api_key
 *.csv
 openai_gen
+
+output
+tmp

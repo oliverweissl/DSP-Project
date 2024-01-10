@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <title>NormBert</title>
+</head>
+<body>
+    <header>
+        <h1>NormBert - Hybrid Interface</h1>
+    </header>
+    <div style="display: flex; justify-content: space-between; padding: 20px;">
+        <div>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" id="fileInput" name="fileInput" accept=".csv" multiple>
+                <input type="hidden" id="hiddenIndices" name="hiddenIndices" value="{{ index_data }}">
+                <button type="button" onclick="uploadFile()">Upload CSV</button>
+            </form><br>
+            <input type="text" id="norm_input" name="norm_input" class="largerInput"><br>
+            <div class="radio-group">
+                <input type="radio" id="radio1" name="radioGroup" value="option1">
+                <label for="radio1">eFlint</label>
+
+                <input type="radio" id="radio2" name="radioGroup" value="option2">
+                <label for="radio2">DCPL</label>
+            </div><br>
+            <button type="button">Translate Norms</button>
+        </div>
+        <div>
+            <label for="norm_output">Norm Text Output:</label>
+            <input type="text" id="norm_output" name="norm_output" class="largerInput" readonly="readonly">
+            <input type="text" id="norm_correction" name="norm_correction" class="largerInput">
+
+            <button type="submit" onclick="submitCorrection()">Submit</button>
+        </div>
+        <div style="margin-left: 20px;">
+            <ul id="indexList">
+                {% if list_data %}
+                    {% for value in list_data %}
+                        <li>
+                            <span>{{ value }}</span>
+                            <span class="deleteIcon">−</span>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <form action="/process_data" method="post" style="text-align: center;">
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function uploadFile() {
+            var fileInput = document.getElementById('fileInput');
+            var indexList = document.getElementById('indexList');
+
+            var files = fileInput.files;
+
+            // disable manual norm inserion once csv is uploaded
+            document.getElementById('norm_input').disabled = true;
+
+            // Clear existing list
+            indexList.innerHTML = '';
+
+            for (var i = 0; i < files.length; i++) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var content = e.target.result;
+                    var lines = content.split('\n');
+
+                    // Extract header values
+                    var headerValues = lines[0].split(',');
+
+                    // Update the index list
+                    for (var j = 0; j < headerValues.length; j++) {
+                        var li = document.createElement('li');
+                        li.textContent = headerValues[j];
+                        var span = document.createElement('span');
+                        span.className = 'deleteIcon';
+                        span.textContent = '−';
+                        li.appendChild(span);
+                        indexList.appendChild(li);
+                    }
+                };
+
+                reader.readAsText(files[i]);
+            }
+        }
+
+        function submitCorrection() {
+            var norm_correction_value = document.getElementById('norm_correction').value;
+
+            // enable manual norm inserion once finished
+            document.getElementById('norm_input').disabled = false;
+
+            console.log('Second Text Box Value:', norm_correction_value);
+        }
+    </script>
+</body>
+</html>
