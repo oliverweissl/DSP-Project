@@ -1,9 +1,10 @@
-def gpt_promt(row, target: str) -> dict:
+def gpt_promt(row, target: str, testing: bool = False) -> dict:
     """
     Format to jsonl.
 
     :param row: The row.
     :param target: The targeted cell.
+    :param testing: Whether this prompt is used for testing.
     :return: The full prompt.
     """
     match target:
@@ -27,11 +28,14 @@ def gpt_promt(row, target: str) -> dict:
             {
                 "role": "user",
                 "content": f"Translate the following Norm into {tpe}: {row['text']}"
-            },
+            }
+        ]
+    }
+    if not testing:
+        msg["messages"].append(
             {
                 "role": "assistant",
                 "content": row[target]
             }
-        ]
-    }
+        )
     return msg
