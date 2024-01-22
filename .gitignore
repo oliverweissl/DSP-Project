@@ -1,25 +1,22 @@
 .idea
-venv/
+.coverage
+.pytest_cache/
+.ipynb_checkpoints
 
+venv/
 *.pyc
 **__pycache__/
-
 instance/
-
-.pytest_cache/
-.coverage
+openai_*/
+output/
+figures/
 htmlcov/
-
 dist/
 build/
 *.egg-info/
-
 .DS_STORE
 
 **/.env
 **/.api_key
 *.csv
-openai_gen
-
-output
-tmp
+*.jsonl

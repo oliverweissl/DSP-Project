@@ -1,7 +1,8 @@
-from transformers import TrainingArguments, Trainer, PreTrainedTokenizerBase, PreTrainedModel
-from peft import LoraConfig
+from transformers import TrainingArguments, Trainer, PreTrainedTokenizerBase, PreTrainedModel, DataCollatorForSeq2Seq
+from peft import LoraConfig, prepare_model_for_kbit_training, get_peft_model, TaskType
 from trl import SFTTrainer
 from datasets import DatasetDict
+from typing import Callable
 
 
 class CustomTrainer:
@@ -13,9 +14,11 @@ class CustomTrainer:
     tokenizer: PreTrainedTokenizerBase
     model: PreTrainedModel
     dataset: DatasetDict
+    evaluate_metric: Callable
+    data_collator: DataCollatorForSeq2Seq
 
     def __init__(self, tpe: str, model: PreTrainedModel, dataset: DatasetDict,
-                 tokenizer: PreTrainedTokenizerBase) -> None:
+                 tokenizer: PreTrainedTokenizerBase, eval: Callable) -> None:
         """
         Initialize this class.
 
@@ -24,9 +27,9 @@ class CustomTrainer:
         :param dataset: The dataset.
         :param tokenizer: The tokenizer.
         """
-        with open("tmp/eflint.txt", "r") as f:
+        with open("assets/eflint.txt", "r") as f:
             self._EFLINT_CONTEXT = f.read()  #
-        with open("tmp/dpcl.txt", "r") as f:
+        with open("assets/dpcl.txt", "r") as f:
             self._DPCL_CONTEXT = f.read()
 
         self._tpe = tpe
@@ -39,8 +42,13 @@ class CustomTrainer:
         self.model = model
         # Makes training faster but a little less accurate
         self.model.config.pretraining_tp = 1
+        self.model.gradient_checkpointing_enable()
+        self.model = prepare_model_for_kbit_training(self.model)
 
+        self.evaluate_metric = eval
         self.dataset = dataset
+        self.data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=self.model)
+
 
     @staticmethod
     def _flint_prompt_format(row) -> str:
@@ -50,7 +58,7 @@ class CustomTrainer:
         :param row: The row conatining the data.
         :return: The prompt.
         """
-        with open("tmp/eflint.txt", "r") as f:
+        with open("assets/eflint.txt", "r") as f:
             context = f.read()
 
         return f"""### Instruction: 
@@ -73,14 +81,14 @@ class CustomTrainer:
         :param row: The row conatining the data.
         :return: The prompt.
         """
-        with open("tmp/dpcl.txt", "r") as f:
+        with open("assets/dpcl.txt", "r") as f:
             context = f.read()
 
         return f"""### Instruction: 
             Use the Task below and the Input given to write the Response:
 
             ### Task:
-            Understand the concepts in the following text: {context}. Now translate the input into EFlint format.
+            Understand the concepts in the following text: {context}. Now translate the input into DCPL format.
 
             ### Input:
             {row['text']}
@@ -96,19 +104,26 @@ class CustomTrainer:
         """
         args = TrainingArguments(
             output_dir='output',
-            num_train_epochs=1,
-            per_device_train_batch_size=4,
-            save_strategy="epoch",
-            learning_rate=2e-4
+            num_train_epochs=2,
+            per_device_train_batch_size=8,
+            per_device_eval_batch_size=8,
+            gradient_accumulation_steps=4,
+            save_strategy="no",
+            learning_rate=2e-4,
+            evaluation_strategy="epoch",
+            logging_strategy="epoch",
         )
 
         peft_config = LoraConfig(
-            lora_alpha=16,
             lora_dropout=0.1,
+            lora_alpha=32,
             r=64,
-            bias="none",
-            task_type="CAUSAL_LM",
+            task_type=TaskType.SEQ_2_SEQ_LM,
+            inference_mode=False,
         )
+
+        self.model = get_peft_model(model=self.model, peft_config=peft_config)
+        self.data_collator = DataCollatorForSeq2Seq(model=self.model, tokenizer=self.tokenizer)
 
         match self._tpe:
             case "flint":
@@ -127,7 +142,9 @@ class CustomTrainer:
             packing=True,
             formatting_func=func,
             args=args,
-            max_seq_length=1024,
+            max_seq_length=512,
+            #compute_metrics=self.evaluate_metric,
+            data_collator=self.data_collator
         )
         return trainer
 

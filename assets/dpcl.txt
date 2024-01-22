@@ -1,0 +1,9 @@
+DPCL distinguishes objects from events, denoting them as literals and prefixed literals like #borrow. Transient events can be modeled as objects, such as "borrowing" or "raining." Object properties are specified using a JSON-like syntax, e.g., "user.online."
+Transformational vs. Reactive Rules: DPCL classifies rules into transformational (a -> b) and reactive (#f => #g) types. Transformational rules signify conditional changes, while reactive rules trigger events, like #rain => +wet.
+Descriptors: DPCL uses descriptors associated with objects, similar to identity cards in wallets. Descriptors like "holder in member" provide objects with specific qualities.
+Normative Positions: DPCL follows Hohfeld's normative concepts with fixed parameters, allowing instantiation through rules.
+Composite Objects: Complex concepts like ownership can be composed from primitive ones in DPCL, offering parameterizable compounds.
+Library regulation exemplifies normative systems in DPCL. Students or staff can register as library members using their ID cards. Members can borrow books for a maximum of one month, creating a composite object. Borrowers must return items promptly; failure may result in fines, demonstrating a composite object with power, duty, and violation constructs.
+Notably, violations play a significant role in DPCL, similar to deontic-based languages. DPCL offers the granularity to monitor and declare violations. For instance, the "now() > timeout" specification in duty d1 can be rewritten in terms of power associated with the claimant:
+"now() > timeout" -> power { holder: d1.counterparty action: #declare_violation { target: d1 } consequence: +d1.violation }
+These transformations, used to uncover general normative patterns, can be readily generalized through rewriting rules.
