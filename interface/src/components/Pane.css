@@ -1,0 +1,47 @@
+/* Pane.css */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .pane-form {
+    text-align: left;
+  }
+  label {
+    margin: 10px 0;
+    font-size: 16px;
+    display: block;
+  }
+  
+  input[type="file"],
+  textarea,
+  button {
+    margin-bottom: 10px;
+  }
+  
+  textarea {
+    width: 100%;
+    resize: vertical;
+  }
+  
+  .radio-group {
+    margin: 10px 0;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+
+  .button-container {
+    text-align: left; /* Aligns the button to the left */
+  }
