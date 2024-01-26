@@ -68,7 +68,7 @@ const Pane = ({ onSubmit }) => {
   else if (manualText) {
     try {
     let response;
-    response = await axios.post('http://localhost:3001/api/submit-manual', {
+    response = await axios.post('http://localhost:5000/process', {
       manualText: manualText,
       method: selectedOption,
     })
