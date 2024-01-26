@@ -5,7 +5,7 @@ FLINT_MODEL = "ft:gpt-3.5-turbo-1106:dsp-project::8hHiGRcA"
 DPCL_MODEL = "ft:gpt-3.5-turbo-1106:dsp-project::8hIXYrQs"
 ARGS = {"temperature": 0.6, "max_tokens": 512}
 
-path = "\\".join(str(Path(__file__).absolute()).split("\\")[:5])
+path = "\\".join(str(Path(__file__).absolute()).split("\\")[:-2])
 openai.api_key_path = f"{path}/openai_endpoints/.api_key"
 
 

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 def gpt_promt(row, target: str, testing: bool = False) -> dict:
     """
     Format to jsonl.
@@ -9,7 +10,7 @@ def gpt_promt(row, target: str, testing: bool = False) -> dict:
     :param testing: Whether this prompt is used for testing.
     :return: The full prompt.
     """
-    path = "\\".join(str(Path(__file__).absolute()).split("\\")[:5])
+    path = "\\".join(str(Path(__file__).absolute()).split("\\")[:-2])
 
     match target:
         case "flint":

@@ -3,7 +3,6 @@ import numpy as np
 from ._gpt_promt import gpt_promt
 
 
-
 def prepare_gpt_dataset(path: str) -> None:
     """
     Prepare dataset for gpt3.5 fine-tuning.

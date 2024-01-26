@@ -11,7 +11,6 @@ def process_data():
 
     promt = gpt_promt({"text": text}, target=norm_type, testing=True)["messages"]
     response: dict = request_gpt(promt, norm_type)
-    print(response)
 
     result = {'status': 'success', 'data': response["choices"][0]["message"]["content"]}
     return jsonify(result)

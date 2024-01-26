@@ -73,7 +73,7 @@ const Pane = ({ onSubmit }) => {
       method: selectedOption,
     })
     selectDocuments(response.data)
-    //console.log(response.data)
+    // console.log(response.data)
     setSelectedOption('dpcl');
     setCsvFile(null);
     setManualText('');
