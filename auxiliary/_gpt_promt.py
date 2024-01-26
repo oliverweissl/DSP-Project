@@ -1,3 +1,5 @@
+from pathlib import Path
+
 def gpt_promt(row, target: str, testing: bool = False) -> dict:
     """
     Format to jsonl.
@@ -7,13 +9,15 @@ def gpt_promt(row, target: str, testing: bool = False) -> dict:
     :param testing: Whether this prompt is used for testing.
     :return: The full prompt.
     """
+    path = "\\".join(str(Path(__file__).absolute()).split("\\")[:5])
+
     match target:
         case "flint":
-            with open("../assets/eflint.txt", "r") as f:
+            with open(f"{path}/assets/eflint.txt", "r") as f:
                 tpe = "eFlint"
                 context = f.read()
-        case "dcpl":
-            with open("../assets/dpcl.txt", "r") as f:
+        case "dcpl" | "dpcl":
+            with open(f"{path}/assets/dpcl.txt", "r") as f:
                 tpe = "DPCL"
                 context = f.read()
         case _:
